@@ -115,7 +115,7 @@ public class FormMainLayout extends VerticalLayout {
 			    deliveryInButton.addClickListener(e ->
 			    	{	     
 			    	deliveryInButton.getUI().ifPresent(ui ->  ui.navigate("del"));
-			    	 UI.getCurrent().getPage().reload();
+			    	 UI.getCurrent().getPage().reload(); //if I don't use this, the content DIV will not refreshed
 			    	});
 				}
 			
