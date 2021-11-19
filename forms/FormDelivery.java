@@ -39,6 +39,7 @@ public class FormDelivery extends FormMainLayout {
 		this.product = new Product(name.getValue(),amount.getValue());
 		repository.save(this.product);
 		 UI.getCurrent().getPage().reload();
+		//TODO - How to refresh just the 'form' / content DIV  ?
 	}
 
 
