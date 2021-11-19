@@ -118,6 +118,7 @@ public class FormMainLayout extends VerticalLayout {
 					//
 			    	 UI.getCurrent().getPage().reload();
 					//if I don't use this, the content DIV will not refreshed. How can I "refresh just the DIV"?
+					//So the link will be changed to 8080/del, but the content of content will be the last content. If I refresh the browser it shows the 'Form'
 					//I'm looking for something like row 97 and FormContentHome
 			    	});
 				}
