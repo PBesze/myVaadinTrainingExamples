@@ -1,114 +1,53 @@
-@Route(value="forms", layout = MainLayout.class)
+package org.vaadin.bpexampleapp.forms;
+
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.textfield.NumberField;
+import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.router.Route;
+import com.vaadin.flow.spring.annotation.SpringComponent;
+import com.vaadin.flow.spring.annotation.UIScope;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.vaadin.bpexampleapp.MainLayout;
+import org.vaadin.bpexampleapp.model.Product;
+import org.vaadin.bpexampleapp.model.ProductRepository;
 
 
-public class FormMainLayout extends VerticalLayout {
+@Route(value="del", layout = MainLayout.class)
+@SpringComponent
+@UIScope
+public class FormDelivery extends FormMainLayout {
+	private static final long serialVersionUID = -7L;
+	public static final String TITLE = "Delivery OUT";
+	public static final String ROUTE = "out";
 	
-	public static final String ROUTE = "forms";
-	public static final String TITLE = "Forms";
-		Div page = new Div();
+	private final ProductRepository repository;
+	public Product product;
+	final TextField name = new TextField("Name");
+	final NumberField amount = new NumberField("Amount");
+	final Button save = new Button("Save");
+	
+	@Autowired
+	public FormDelivery(ProductRepository repository) {
+		this.repository = repository;
+		content.add(name, amount, save);
+		save.addClickListener(e -> save());
+	}
 
-			final HorizontalLayout layout;
-			Div navigation;
-			Div content;
-			Button homeButton;
-			Button deliveryInButton;
-			Button deleteButton;
-			
-			public FormMainLayout() {
-				setPadding(false);
-				setSpacing(false);
-				setSizeFull();
-				setDefaultHorizontalComponentAlignment(Alignment.STRETCH);
-						
-				final Div header = new Div();
-				header.getStyle().set("flexShrink", "0");
-				header.setText("This is the header. My height is 50 pixels");
-				header.setClassName("header");
-				header.setHeight("50px");
-
-				layout = new HorizontalLayout();
-				layout.getStyle().set("flex-grow", "1");
-				layout.setSpacing(false);
-				createTextLayout();
-
-				final Div footer = new Div();
-				footer.getStyle().set("flexShrink", "0");
-				footer.setText("This is the footer area. My height is 50 pixels");
-				footer.setClassName("footer");
-				footer.setHeight("50px");
-				add(header, layout, footer);
-			}
-			
-			private void createTextLayout() {
-				navigation = new Div();
-				navigation.setClassName("navigation");
-				navigation.setWidth("15%");
-				
-
-				navigation.getStyle().set("display", "flex"); 
-				navigation.getElement().getStyle().set("flex-shrink", "0");
-				navigation.getElement().getStyle().set("flex-direction", "column");
-				navigation.getStyle().set("flexWrap", "wrap");
-				navigation.getStyle().set("alignContent", "center");
-				
-				createHomeButton();
-				createDeliveryButton();
-				createDeleteButton();
-				navigation.add(homeButton,deliveryInButton,deleteButton);
-				
-				content = new Div();
-				content.setHeightFull();
-				content.getStyle().set("display", "flex"); 
-				content.setClassName("content");
-				content.setWidth("75%");
-				content.getStyle().set("alignContent", "center");
-				content.getStyle().set("flexWrap", "wrap");
-				content.getElement().getStyle().set("flex-direction", "column");
-				content.getStyle().set("owerflow", "auto");
- 
-								
-				layout.add(navigation, content);
-				layout.expand(content);
-				layout.setDefaultVerticalComponentAlignment(Alignment.STRETCH);
-				
-				
-			}
-			
-			private void createHomeButton()  {
-			    homeButton = new Button("Form Home");
-			    homeButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-			    homeButton.addClickListener(e ->
-			    	{
-			    	content.removeAll();
-			    	content.add(FormContentHome.FormContent());				
-
-			    	});
-				}
-			
-			private void createDeleteButton()  {
-			    deleteButton = new Button("Delete");
-			    deleteButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-			    deleteButton.addClickListener(e ->
-			    	{
-			    	content.removeAll();			
-
-			    	});
-				}
-			
-			private void createDeliveryButton()  {
-			    deliveryInButton = new Button("Delivery");
-			    deliveryInButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-			    deliveryInButton.addClickListener(e ->
-			    	{	     
-			    	deliveryInButton.getUI().ifPresent(ui ->  ui.navigate("del"));
-			    	 UI.getCurrent().getPage().reload();
-			    	});
-				}
-			
+	void save() {
+		this.product = new Product(name.getValue(),amount.getValue());
+		repository.save(this.product);
+		 UI.getCurrent().getPage().reload();
+	}
 
 
-			
-		}
+	}
+
+	
+	
+
+
 
 
 
