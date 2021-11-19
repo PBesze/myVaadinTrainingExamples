@@ -115,7 +115,10 @@ public class FormMainLayout extends VerticalLayout {
 			    deliveryInButton.addClickListener(e ->
 			    	{	     
 			    	deliveryInButton.getUI().ifPresent(ui ->  ui.navigate("del"));
+					//
 			    	 UI.getCurrent().getPage().reload();
+					//if I don't use this, the content DIV will not refreshed. How can I "refresh just the DIV"?
+					//I'm looking for something like row 97 and FormContentHome
 			    	});
 				}
 			
