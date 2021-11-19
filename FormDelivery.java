@@ -38,7 +38,8 @@ public class FormDelivery extends FormMainLayout {
 	void save() {
 		this.product = new Product(name.getValue(),amount.getValue());
 		repository.save(this.product);
-		 UI.getCurrent().getPage().reload();
+		
+		 UI.getCurrent().getPage().reload(); //if I don't use this, the content DIV will not refreshed
 	}
 
 
